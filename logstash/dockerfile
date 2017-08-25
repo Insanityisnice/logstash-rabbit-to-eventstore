@@ -1,0 +1,8 @@
+# The official logstash image throws errors when running apt-get.
+FROM docker.elastic.co/logstash/logstash:5.5.2
+RUN rm -f /usr/share/logstash/pipeline/logstash.conf
+
+COPY pipeline/ /usr/share/logstash/pipeline/
+COPY config/ /usr/share/logstash/config/
+
+CMD ["logstash", "-f", "/usr/share/logstash/pipeline/"]

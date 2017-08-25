@@ -1,0 +1,13 @@
+version: '3'
+services:
+    rabbit:
+        container_name: rabbit-test
+        hostname: rabbit-node-1
+        image: rabbitmq:management-alpine
+        ports:
+        - 15672:15672
+    logstash:
+      container_name: logstash
+      build: ./logstash
+      environment:
+        
