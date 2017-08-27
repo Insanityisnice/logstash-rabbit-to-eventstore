@@ -1,13 +1,25 @@
 version: '3'
 services:
     rabbit:
-        container_name: rabbit-test
+        container_name: rabbitmq
         hostname: rabbit-node-1
         image: rabbitmq:management-alpine
         ports:
-        - 15672:15672
+          - 15672:15672
+    eventstore:
+      container_name: eventstore
+      hostname: eventstore-node-1
+      image: eventstore/eventstore:latest
+      ports:
+        - 2113:2113
     logstash:
       container_name: logstash
+      hostname: logstash-node-1
       build: ./logstash
+      links:
+        - rabbit
+        - eventstore
       environment:
-        
+        - RABBITMQ_HOSTNAME=rabbit
+        - EVENTSTORE_HOSTNAME=eventstore
+        - EVENTSTORE_PORT=2113
